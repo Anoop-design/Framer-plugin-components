@@ -1,0 +1,228 @@
+/*
+================================================================================
+DESIGN TOKENS — Global Variables & Theme Foundation (Web Version)
+================================================================================
+
+This file centralizes all design tokens used across the component library.
+All tokens are Framer-inspired with explicit light/dark theme definitions.
+
+IMPORTANT: Do NOT hardcode colors. Always use CSS variables so components
+automatically adapt to light/dark themes.
+================================================================================
+*/
+
+/* 
+================================================================================
+LIGHT THEME (Default)
+================================================================================
+*/
+:root, 
+[data-theme="light"],
+html:not([data-theme]) {
+  /*
+  ──────────────────────────────────────────────────────────────────────────
+  FRAMER-INSPIRED COLOR TOKENS (LIGHT THEME)
+  ──────────────────────────────────────────────────────────────────────────
+  */
+  
+  /* Primary surfaces */
+  --framer-color-bg: #ffffff;
+  --framer-color-bg-secondary: #fafafa;
+  --framer-color-bg-tertiary: #f5f5f5;
+  --framer-color-bg-quaternary: #eeeeee;
+  
+  /* Text colors */
+  --framer-color-text: #0f172a;
+  --framer-color-text-secondary: #64748b;
+  --framer-color-text-tertiary: #94a3b8;
+  
+  /* Borders & accents */
+  --framer-color-divider: rgba(0, 0, 0, 0.12);
+  --framer-color-tint: #0099ff;
+  --framer-color-tint-dark: #0077cc;
+}
+
+/* 
+================================================================================
+DARK THEME
+================================================================================
+*/
+[data-theme="dark"] {
+  /*
+  ──────────────────────────────────────────────────────────────────────────
+  FRAMER-INSPIRED COLOR TOKENS (DARK THEME)
+  ──────────────────────────────────────────────────────────────────────────
+  */
+  
+  /* Primary surfaces */
+  --framer-color-bg: #0f0f0f;
+  --framer-color-bg-secondary: #1a1a1a;
+  --framer-color-bg-tertiary: #242424;
+  --framer-color-bg-quaternary: #2e2e2e;
+  
+  /* Text colors */
+  --framer-color-text: #ffffff;
+  --framer-color-text-secondary: #a1a1a1;
+  --framer-color-text-tertiary: #6b6b6b;
+  
+  /* Borders & accents */
+  --framer-color-divider: rgba(255, 255, 255, 0.12);
+  --framer-color-tint: #0099ff;
+  --framer-color-tint-dark: #66c2ff;
+}
+
+/* 
+================================================================================
+SHARED TOKENS (Apply to both themes)
+================================================================================
+*/
+:root, body {
+  --bg: var(--framer-color-bg);
+  --surface: var(--framer-color-bg-secondary);
+  --surface-secondary: var(--framer-color-bg-tertiary);
+  --text: var(--framer-color-text);
+  --muted: var(--framer-color-text-secondary);
+  --border: var(--framer-color-divider);
+  --ring: var(--framer-color-tint);
+
+  /*
+  ──────────────────────────────────────────────────────────────────────────
+  SPACING & LAYOUT TOKENS
+  ──────────────────────────────────────────────────────────────────────────
+  HOW TO EDIT:
+  - Adjust values for more/less rounding across all components
+  - Keep values consistent (e.g., radius-sm should be smaller than radius)
+  - Shadow can be modified for deeper/lighter elevation
+  */
+  
+  /* Border radius scale */
+  --radius: 10px;         /* Large: cards, panels, dropdowns */
+  --radius-sm: 8px;       /* Medium: buttons, inputs, list rows */
+  --radius-xs: 6px;       /* Small: badges, swatches, tooltips */
+  
+  /* Elevation (box-shadow) */
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 
+            0 8px 24px rgba(0, 0, 0, 0.04);
+
+  /*
+  ──────────────────────────────────────────────────────────────────────────
+  ANIMATION TOKENS
+  ──────────────────────────────────────────────────────────────────────────
+  Standard durations and easing curves for consistent motion.
+  
+  HOW TO EDIT:
+  - Adjust durations for faster/slower animations
+  - Change easing curves for different motion feel
+  - Keep fast (150ms) for micro-interactions
+  - Use medium (200-300ms) for larger movements
+  */
+  
+  /* Durations */
+  --duration-fast: 150ms;       /* Quick hover states, tooltips */
+  --duration-medium: 200ms;     /* Button hover, input focus */
+  --duration-slow: 300ms;       /* Larger movements, panel slides */
+  
+  /* Easing curves (based on your animation guidelines) */
+  --ease-out-cubic: cubic-bezier(0.215, 0.61, 0.355, 1);
+  --ease-out-quart: cubic-bezier(0.165, 0.84, 0.44, 1);
+  --ease-out-quint: cubic-bezier(0.23, 1, 0.32, 1);
+
+  /*
+  ──────────────────────────────────────────────────────────────────────────
+  TYPOGRAPHY TOKENS
+  ──────────────────────────────────────────────────────────────────────────
+  Font sizes and weights for consistent typography.
+  */
+  
+  /* Font sizes */
+  --text-xs: 11px;        /* Tiny labels, hints */
+  --text-sm: 12px;        /* Small text, badges */
+  --text-base: 13px;      /* Body text, inputs */
+  --text-md: 14px;        /* Headings, emphasized */
+  --text-lg: 16px;        /* Large headings */
+  
+  /* Font weights */
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+
+  /*
+  ──────────────────────────────────────────────────────────────────────────
+  COMPONENT-SPECIFIC TOKENS
+  ──────────────────────────────────────────────────────────────────────────
+  Tokens used by specific components. Centralized here for easy updates.
+  */
+  
+  /* Buttons */
+  --button-padding: 8px 16px;
+  --button-height: 36px;
+  --button-small-height: 28px;
+  --button-icon-size: 36px;
+  
+  /* Inputs */
+  --input-padding: 8px 12px;
+  --input-height: 36px;
+  
+  /* Badges */
+  --badge-padding: 2px 6px;
+  --badge-font-size: var(--text-xs);
+  
+  /* Swatches */
+  --swatch-small: 16px;
+  --swatch-default: 24px;
+  --swatch-large: 32px;
+
+  /*
+  ──────────────────────────────────────────────────────────────────────────
+  COLOR SCHEME HINT
+  ──────────────────────────────────────────────────────────────────────────
+  Tells browsers we support both light and dark color schemes for better
+  defaults (e.g., native form controls, scrollbars).
+  */
+  color-scheme: light dark;
+}
+
+/*
+================================================================================
+REDUCED MOTION SUPPORT (WCAG AAA)
+================================================================================
+Disables animations when user requests reduced motion. This is a critical
+accessibility feature for users with vestibular disorders.
+
+DO NOT REMOVE THIS RULE.
+*/
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/*
+================================================================================
+USAGE EXAMPLES
+================================================================================
+
+✅ CORRECT: Using tokens
+.my-component {
+  background: var(--framer-color-bg-tertiary);
+  color: var(--framer-color-text);
+  border-radius: var(--radius-sm);
+  transition: background-color var(--duration-medium) var(--ease-out-cubic);
+}
+
+❌ WRONG: Hardcoded values
+.my-component {
+  background: #f5f5f5;
+  color: #000;
+  border-radius: 8px;
+  transition: background-color 200ms ease;
+}
+
+================================================================================
+*/
+

@@ -1,0 +1,1866 @@
+/*
+================================================================================
+FRAMER DESIGN SYSTEM — COMPONENT LIBRARY STYLES
+================================================================================
+
+Purpose:
+  A comprehensive design system built from style-manager and style-checker
+  components. All components use official Framer color tokens for automatic
+  light/dark theme support.
+
+Key Principles:
+  1. Theme-first: All colors use var(--framer-color-*) tokens
+  2. Motion-aware: Respects prefers-reduced-motion
+  3. Accessible: WCAG AA contrast, keyboard navigation, ARIA labels
+  4. Performance: Hardware-accelerated animations (transform, opacity)
+
+Official Framer Color Tokens:
+  --framer-color-bg             Primary background (white/dark gray)
+  --framer-color-bg-secondary   Secondary surface layer
+  --framer-color-bg-tertiary    Tertiary surface (inputs, buttons, hover states)
+  --framer-color-text           Primary text (near-black/white)
+  --framer-color-text-secondary Muted text (gray)
+  --framer-color-divider        Borders and separators (subtle gray)
+  --framer-color-tint           Brand accent (blue, for focus rings and links)
+
+Docs: https://www.framer.com/developers/interface
+================================================================================
+*/
+
+/* Import design tokens (variables, colors, spacing) */
+@import url("./tokens.css");
+
+/*
+================================================================================
+1. APP SHELL & LAYOUT FOUNDATION
+================================================================================
+*/
+
+:root, body {
+  /*
+  ──────────────────────────────────────────────────────────────────────────
+  Custom Semantic Tokens
+  ──────────────────────────────────────────────────────────────────────────
+  These are shorthand aliases for commonly used Framer tokens. You can
+  reference them directly or use the full --framer-color-* tokens.
+  
+  How to edit:
+  - Keep these in sync with Framer tokens for consistency
+  - Add new semantic tokens as needed (e.g., --surface-hover)
+  - Never hardcode colors; always use CSS variables
+  */
+  --bg: var(--framer-color-bg, #ffffff);
+  --surface: var(--framer-color-bg-secondary, #fafafa);
+  --surface-secondary: var(--framer-color-bg-tertiary, #f5f5f5);
+  --text: var(--framer-color-text, #0f172a);
+  --muted: var(--framer-color-text-secondary, #64748b);
+  --border: var(--framer-color-divider, rgba(0, 0, 0, 0.12));
+  --ring: var(--framer-color-tint, #3b82f6);
+
+  /*
+  ──────────────────────────────────────────────────────────────────────────
+  Spacing & Layout
+  ──────────────────────────────────────────────────────────────────────────
+  How to edit:
+  - Adjust --radius-* for more/less rounded corners
+  - Modify --shadow for deeper/lighter elevation
+  - Keep spacing multiples of 4 for alignment
+  */
+  --radius: 10px;         /* Large elements (cards, panels) */
+  --radius-sm: 8px;       /* Medium elements (buttons, inputs) */
+  --radius-xs: 6px;       /* Small elements (badges, swatches) */
+  --shadow: 0 1px 2px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.04);
+
+  /* Hint browsers we support both color schemes for better defaults */
+  color-scheme: light dark;
+}
+
+/*
+──────────────────────────────────────────────────────────────────────────
+Motion Accessibility
+──────────────────────────────────────────────────────────────────────────
+Disable all transitions and animations when user requests reduced motion.
+This is a WCAG AAA requirement and improves experience for users with
+vestibular disorders.
+
+Do not remove this rule. It's critical for accessibility.
+*/
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/*
+================================================================================
+2. APP SHELL LAYOUT (Design System Interface)
+================================================================================
+*/
+
+/*
+──────────────────────────────────────────────────────────────────────────
+Root Container
+──────────────────────────────────────────────────────────────────────────
+Two-pane layout: Sidebar (35%) + Main content (65%)
+
+How to edit:
+- Adjust grid-template-columns ratio (e.g., 30% 70%)
+- Change height: 100vh if you want full-screen
+- Modify background color via --bg token
+*/
+.ds-root {
+  display: grid;
+  grid-template-columns: 280px 1fr; /* Fixed sidebar width */
+  height: 100%;
+  background: var(--framer-color-bg);
+  color: var(--framer-color-text);
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/*
+──────────────────────────────────────────────────────────────────────────
+Sidebar (Component List)
+──────────────────────────────────────────────────────────────────────────
+Scrollable navigation pane with component names
+
+How to edit:
+- Adjust width via .ds-root grid-template-columns above
+- Change background color (currently bg-tertiary for subtle contrast)
+- Modify border color/width on right edge
+*/
+.ds-sidebar {
+  display: flex;
+  flex-direction: column;
+  background: var(--framer-color-bg);
+  border-right: 1px solid var(--framer-color-divider);
+  overflow: hidden;
+  
+}
+
+/*
+──────────────────────────────────────────────────────────────────────────
+Sidebar Header
+──────────────────────────────────────────────────────────────────────────
+How to edit:
+- Adjust padding for more/less spacing
+- Change font-size for title prominence
+- Modify border-bottom for visual separation
+*/
+.ds-header {
+  padding: 16px 12px;
+  border-bottom: 1px solid var(--framer-color-divider);
+  border-top: 1px solid var(--framer-color-divider);
+  flex-shrink: 0;
+}
+
+.ds-title {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0 0 4px 0;
+  color: var(--framer-color-text);
+}
+
+.ds-count {
+  font-size: 12px;
+  color: var(--framer-color-text-secondary);
+  opacity: 0.8;
+}
+
+/*
+──────────────────────────────────────────────────────────────────────────
+Navigation List
+──────────────────────────────────────────────────────────────────────────
+How to edit:
+- Adjust gap between items
+- Change padding inside .ds-nav
+- Modify scrollbar appearance (currently hidden)
+*/
+.ds-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px;
+  overflow-y: auto;
+  /* Hide scrollbar while keeping scroll functional */
+  -ms-overflow-style: none;  /* IE/Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+
+.ds-nav::-webkit-scrollbar {
+  display: none; /* Chrome/Safari/Opera */
+}
+
+/*
+──────────────────────────────────────────────────────────────────────────
+Navigation Group (Category Section)
+──────────────────────────────────────────────────────────────────────────
+Groups components by category with header (e.g., INPUTS, DISPLAY)
+
+How to edit:
+- Adjust margin-top for spacing between groups
+- Change header font-size/color for prominence
+*/
+.ds-nav-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px;
+}
+
+.ds-nav-group:first-child {
+  margin-top: 0;
+}
+
+.ds-nav-header {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--framer-color-text-secondary);
+  padding: 0 0 8px 0;
+  opacity: 0.5;
+  user-select: none;
+}
+
+/*
+──────────────────────────────────────────────────────────────────────────
+Navigation Item (Component Row)
+──────────────────────────────────────────────────────────────────────────
+Interactive button for each component in the list
+
+How to edit:
+- Change padding for taller/shorter rows
+- Adjust border-radius for more/less rounding
+- Modify hover/active background colors
+- Change transition duration (currently 150ms)
+*/
+.ds-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  padding-left: 18px;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--framer-color-text);
+  font-size: 12px;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 160ms ease-out;
+  width: 100%;
+  min-height: auto;
+  position: relative;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .ds-nav-item:hover {
+    background: var(--framer-color-bg-tertiary);
+  }
+}
+
+.ds-nav-item.is-active {
+  background: var(--framer-color-bg-tertiary);
+  color: var(--framer-color-text);
+  font-weight: 500;
+}
+
+.ds-nav-item:focus-visible {
+  outline: 2px solid var(--framer-color-tint);
+  outline-offset: -2px;
+}
+
+/* Tree-style visual connector (subtle dot indicator) */
+.ds-nav-item::before {
+  content: "";
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--framer-color-text-secondary);
+  opacity: 0.25;
+}
+
+.ds-nav-item.is-active::before {
+  opacity: 0.8;
+  background: var(--framer-color-tint);
+}
+
+.ds-nav-label {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/*
+──────────────────────────────────────────────────────────────────────────
+Main Content Pane (Right Side)
+──────────────────────────────────────────────────────────────────────────
+Scrollable area with component preview + documentation
+
+How to edit:
+- Change padding for overall spacing
+- Adjust max-width if content should be constrained
+- Modify overflow behavior (auto, scroll, hidden)
+*/
+.ds-main {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  /* Hide scrollbar while keeping scroll functional */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  border-top: 1px solid var(--framer-color-divider);
+}
+
+.ds-main::-webkit-scrollbar {
+  display: none;
+}
+
+.ds-content {
+  padding: 20px 24px;
+  max-width: 800px;
+}
+
+/*
+================================================================================
+3. COMPONENT PREVIEW & DOCUMENTATION SECTIONS
+================================================================================
+*/
+
+/*
+──────────────────────────────────────────────────────────────────────────
+Component Header (Breadcrumb + Title + Description)
+──────────────────────────────────────────────────────────────────────────
+*/
+.ds-component-header {
+  margin-bottom: 20px;
+}
+
+.ds-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 12px;
+  font-size: 12px;
+  color: var(--framer-color-text-secondary);
+}
+
+.ds-breadcrumb-category {
+  font-weight: 500;
+  opacity: 0.8;
+}
+
+.ds-breadcrumb-separator {
+  opacity: 0.5;
+}
+
+.ds-breadcrumb-name {
+  font-weight: 600;
+  color: var(--framer-color-text);
+}
+
+.ds-component-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+  color: var(--framer-color-text);
+  line-height: 1.3;
+}
+
+.ds-component-description {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--framer-color-text-secondary);
+  margin: 0;
+}
+
+/*
+──────────────────────────────────────────────────────────────────────────
+Preview Section
+──────────────────────────────────────────────────────────────────────────
+Live component demo with label
+
+How to edit:
+- Adjust padding inside .ds-preview-canvas for more breathing room
+- Change border/background for visual contrast
+- Modify min-height based on component needs
+*/
+.ds-preview {
+  margin-bottom: 20px;
+}
+
+.ds-preview-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--framer-color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.ds-preview-hint {
+  font-size: 11px;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--framer-color-text-secondary);
+  opacity: 0.8;
+}
+
+.ds-preview-canvas {
+  padding: 24px;
+  border: 1px solid var(--framer-color-divider);
+  border-radius: 10px;
+  background: var(--framer-color-bg);
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+/*
+──────────────────────────────────────────────────────────────────────────
+Documentation Section
+──────────────────────────────────────────────────────────────────────────
+*/
+.ds-docs {
+  display: grid;
+  gap: 0;
+}
+
+.ds-docs > div {
+  padding: 16px 0;
+}
+
+.ds-docs > div:first-child {
+  padding-top: 0;
+}
+
+.ds-docs-divider {
+  border: none;
+  border-top: 1px dashed var(--framer-color-divider);
+  margin-top: 40px;
+  opacity: 0.6;
+}
+
+.ds-docs-heading {
+  font-size: 12px;
+  font-weight: 600;
+  margin: 0 0 12px 0;
+  color: var(--framer-color-text);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.ds-docs-text {
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--framer-color-text-secondary);
+  margin: 0;
+}
+
+.ds-docs-list,
+.ds-token-list {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 0 0;
+  display: grid;
+  gap: 8px;
+}
+
+.ds-docs-list li,
+.ds-token-list li {
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--framer-color-text-secondary);
+  padding-left: 18px;
+  position: relative;
+}
+
+.ds-docs-list li::before,
+.ds-token-list li::before {
+  content: "•";
+  position: absolute;
+  left: 6px;
+  color: var(--framer-color-tint);
+  opacity: 0.8;
+}
+
+.ds-docs-list code,
+.ds-token-list code,
+.ds-docs-text code {
+  font-family: ui-monospace, 'SF Mono', 'Cascadia Code', 'Source Code Pro', Menlo, monospace;
+  font-size: 11px;
+  padding: 2px 5px;
+  border-radius: 4px;
+  background: var(--framer-color-bg-tertiary);
+  color: var(--framer-color-text);
+  font-weight: 500;
+}
+
+/*
+================================================================================
+4. BUTTON COMPONENT
+================================================================================
+*/
+
+/*
+──────────────────────────────────────────────────────────────────────────
+Base Button
+──────────────────────────────────────────────────────────────────────────
+Standard button with hover, active, focus, and disabled states
+
+FRAMER TOKENS USED:
+  Background: --framer-color-bg-tertiary (neutral surface)
+  Text: --framer-color-text (primary text)
+  Border: --framer-color-divider (subtle outline)
+  Focus ring: --framer-color-tint (brand accent)
+
+HOW TO EDIT:
+  - Padding: Adjust for taller/shorter buttons (currently 8px 16px)
+  - Border-radius: Change for more/less rounded corners (currently 8px)
+  - Font-size: Increase/decrease text size (currently 13px)
+  - Transition: Modify duration/easing for interaction feel (200ms ease)
+  - Hover/Active: Change transform scale or background shifts
+
+VARIANTS:
+  .ds-button--primary: Filled with tint color (high emphasis)
+  .ds-button--icon: Square icon-only button (36×36px)
+  .ds-button--small: Compact variant for dense UIs
+
+ACCESSIBILITY:
+  - Focus visible ring (2px offset)
+  - Disabled state with cursor:not-allowed
+  - Respects prefers-reduced-motion
+*/
+
+.ds-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border: 1px solid var(--framer-color-divider);
+  border-radius: var(--radius-sm);
+  background: var(--framer-color-bg-tertiary) !important;
+  color: var(--framer-color-text) !important;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 200ms ease;
+  user-select: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .ds-button:hover {
+    opacity: 0.85;
+  }
+}
+
+.ds-button:active {
+  opacity: 0.75;
+  background: var(--framer-color-bg-tertiary) !important;
+  color: var(--framer-color-text) !important;
+}
+
+.ds-button:focus {
+  background: var(--framer-color-bg-tertiary) !important;
+  color: var(--framer-color-text) !important;
+}
+
+.ds-button:focus-visible {
+  background: var(--framer-color-bg-tertiary) !important;
+  color: var(--framer-color-text) !important;
+  outline: 2px solid var(--framer-color-tint);
+  outline-offset: 2px;
+}
+
+.ds-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/*
+──────────────────────────────────────────────────────────────────────────
+Primary Button (High Emphasis)
+──────────────────────────────────────────────────────────────────────────
+Filled button with tint color for primary actions
+
+HOW TO EDIT:
+  - Background: Change to any color (currently uses tint)
+  - Text color: Ensure contrast with background (currently white)
+  - Hover: Adjust opacity or darken background
+*/
+.ds-button--primary {
+  background: var(--framer-color-tint) !important;
+  color: white !important;
+  border-color: var(--framer-color-tint) !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .ds-button--primary:hover {
+    opacity: 0.90;
+  }
+}
+
+.ds-button--primary:active {
+  opacity: 0.8;
+}
+
+.ds-button--primary:focus {
+  background: var(--framer-color-tint) !important;
+  color: white !important;
+}
+
+.ds-button--primary:focus-visible {
+  background: var(--framer-color-tint) !important;
+  color: white !important;
+  outline: 2px solid var(--framer-color-tint);
+  outline-offset: 2px;
+}
+
+/*
+──────────────────────────────────────────────────────────────────────────
+Icon Button (Square)
+──────────────────────────────────────────────────────────────────────────
+Compact square button for icons only
+
+HOW TO EDIT:
+  - Size: Change width/height (currently 36×36px)
+  - Padding: Set to 0 to center icon perfectly
+  - Icon size: Control via SVG width/height (currently 18px)
+*/
+.ds-button--icon {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+}
+
+.ds-button--icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+/*
+──────────────────────────────────────────────────────────────────────────
+Small Button Variant
+──────────────────────────────────────────────────────────────────────────
+*/
+.ds-button--small {
+  padding: 6px 12px;
+  font-size: 12px;
+  height: 28px;
+}
+
+/*
+================================================================================
+5. INPUT COMPONENT
+================================================================================
+*/
+
+/*
+──────────────────────────────────────────────────────────────────────────
+Base Input Field
+──────────────────────────────────────────────────────────────────────────
+Standard text input with focus ring
+
+FRAMER TOKENS USED:
+  Background: --framer-color-bg-tertiary (input surface)
+  Text: --framer-color-text (readable text)
+  Border: --framer-color-divider (subtle outline)
+  Placeholder: --framer-color-text-secondary (muted hint)
+  Focus ring: --framer-color-tint (brand accent)
+
+HOW TO EDIT:
+  - Height: Adjust via padding (currently 8px vertical)
+  - Border-radius: More/less rounded (currently 8px)
+  - Font-size: Increase for readability (currently 13px)
+  - Transition: Modify for smoother/snappier focus (150ms ease)
+
+VARIANTS:
+  .ds-input--search: With left search icon
+  .ds-input--with-icon: Generic left icon support
+
+ACCESSIBILITY:
+  - Placeholder should not be sole label (use <label> element)
+  - Focus visible ring for keyboard users
+  - Disabled state with reduced opacity
+*/
+
+.ds-input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--framer-color-divider);
+  border-radius: var(--radius-sm);
+  background: var(--framer-color-bg-tertiary);
+  color: var(--framer-color-text);
+  font-size: 13px;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.ds-input::placeholder {
+  color: var(--framer-color-text-secondary);
+  opacity: 0.7;
+}
+
+.ds-input:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 0.5px var(--framer-color-tint);
+  border-color: var(--framer-color-tint);
+
+}
+
+.ds-input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/*
+──────────────────────────────────────────────────────────────────────────
+Input with Left Icon (Search variant)
+──────────────────────────────────────────────────────────────────────────
+HOW TO EDIT:
+  - Icon position: Adjust left offset (currently 12px)
+  - Input padding-left: Must match icon width + spacing (currently 36px)
+  - Icon size: Change via SVG width/height (currently 16px)
+*/
+.ds-input-wrap {
+  position: relative;
+  width: 100%;
+  display: inline-flex;
+}
+
+.ds-input-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  color: var(--framer-color-text-secondary);
+  pointer-events: none;
+  opacity: 0.75;
+}
+
+.ds-input--with-icon {
+  padding-left: 36px;
+}
+
+/*
+================================================================================
+6. BADGE COMPONENT
+================================================================================
+*/
+
+/*
+──────────────────────────────────────────────────────────────────────────
+Base Badge
+──────────────────────────────────────────────────────────────────────────
+Small label or count indicator
+
+FRAMER TOKENS USED:
+  Background: --framer-color-bg-tertiary (neutral surface)
+  Text: --framer-color-text-secondary (subtle text)
+  Border: --framer-color-divider (optional outline)
+
+HOW TO EDIT:
+  - Padding: Adjust for size (currently 2px 6px for compact)
+  - Border-radius: Change for pill vs. rounded (currently 6px)
+  - Font-size: Increase for visibility (currently 11px)
+  - Font-weight: 500-700 for emphasis
+
+VARIANTS:
+  .ds-badge--warning: Amber background for warnings
+  .ds-badge--count: With number inside, slightly larger
+  .ds-badge--dot: Tiny dot indicator (8×8px)
+
+USAGE:
+  - Next to tab labels (e.g., "Colors 42")
+  - Status indicators (e.g., "New", "Beta")
+  - Warning/alert chips
+*/
+
+.ds-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: var(--framer-color-bg-tertiary);
+  color: var(--framer-color-text-secondary);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/*
+──────────────────────────────────────────────────────────────────────────
+Warning Badge (Amber)
+──────────────────────────────────────────────────────────────────────────
+HOW TO EDIT:
+  - Background: Adjust rgba alpha for intensity (currently 14%)
+  - Border: Add border for more definition
+  - Color: Ensure contrast with background
+*/
+.ds-badge--warning {
+  background: rgba(245, 158, 11, 0.14);
+  color: rgb(245, 158, 11);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  font-weight: 600;
+}
+
+/*
+──────────────────────────────────────────────────────────────────────────
+Count Badge
+──────────────────────────────────────────────────────────────────────────
+*/
+.ds-badge--count {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  min-width: 20px;
+  justify-content: center;
+}
+
+/*
+================================================================================
+7. TOOLTIP COMPONENT
+================================================================================
+*/
+
+/*
+──────────────────────────────────────────────────────────────────────────
+Tooltip (Portal-based)
+──────────────────────────────────────────────────────────────────────────
+Positioned tooltip that renders in document.body to avoid clipping
+
+FRAMER TOKENS USED:
+  Background: --framer-color-bg (light tooltip surface)
+  Text: --framer-color-text (readable text)
+  Border: --framer-color-divider (subtle outline)
+  Shadow: --shadow (elevation)
+
+HOW TO EDIT:
+  - Padding: Adjust for breathing room (currently 6px 10px)
+  - Font-size: Increase for readability (currently 12px)
+  - Border-radius: More/less rounded (currently 6px)
+  - Animation: Change duration/easing (currently 120ms ease)
+  - Z-index: Ensure it's above all other content (currently 999999)
+
+ACCESSIBILITY:
+  - Pointer-events:none to avoid blocking clicks
+  - Fade-in animation for smooth appearance
+  - Auto-hides on blur/mouseleave
+*/
+
+.ds-tooltip {
+  position: fixed;
+  padding: 6px 10px;
+  background: var(--framer-color-bg);
+  color: var(--framer-color-text);
+  border: 1px solid var(--framer-color-divider);
+  border-radius: var(--radius-xs);
+  font-size: 12px;
+  line-height: 1.3;
+  white-space: nowrap;
+  box-shadow: var(--shadow);
+  pointer-events: none;
+  z-index: 999999;
+  will-change: opacity, transform;
+}
+
+/*
+================================================================================
+8. SEGMENTED CONTROL
+================================================================================
+*/
+
+/*
+──────────────────────────────────────────────────────────────────────────
+Segmented Control (Tabs with Sliding Pill)
+──────────────────────────────────────────────────────────────────────────
+Equal-width tab control with animated background pill
+
+FRAMER TOKENS USED:
+  Rail background: --framer-color-bg-tertiary (tab bar surface)
+  Pill background: --framer-color-bg (active tab surface)
+  Active text: --framer-color-text (emphasized text)
+  Inactive text: #999 (muted, but could use --framer-color-text-secondary)
+
+HOW TO EDIT:
+  - Rail padding: Adjust for size (currently 2px inset)
+  - Tab height: Change via height (currently 32px)
+  - Border-radius: More/less rounded (currently 10px rail, 8px pill)
+  - Animation duration: Faster/slower slide (currently 150ms)
+  - Max-width: Constrain width (currently 200px)
+
+ANIMATION:
+  - Pill uses transform: translateX() for hardware acceleration
+  - Cubic-bezier easing for smooth slide
+  - Width transition for responsive sizing
+
+ACCESSIBILITY:
+  - role="tablist" and role="tab"
+  - Arrow key navigation (Left/Right)
+  - Home/End jump to first/last
+*/
+
+.ds-segmented {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.ds-segmented-rail {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  background: var(--framer-color-bg-tertiary);
+  border-radius: 10px;
+  padding: 0px;
+  height: 32px;
+  width: 100%;
+  min-width: 320px;
+  max-width: 400px;
+}
+
+.ds-segmented-pill-container {
+  pointer-events: none;
+}
+
+.ds-segmented-pill {
+  position: absolute;
+  top: 2px;
+  bottom: 2px;
+  border-radius: 8px;
+  background: var(--framer-color-bg);
+  box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.02), 
+              0px 1px 0px 0px rgba(0, 0, 0, 0.05), 
+              0px 2px 4px 0px rgba(0, 0, 0, 0.1);
+  transition: left 150ms ease-out, 
+              width 150ms ease-out;
+  pointer-events: none;
+  will-change: left, width;
+  z-index: 0;
+}
+
+/* Dark mode pill override (matches existing memory) */
+.framer-theme-dark .ds-segmented-pill,
+.theme-dark .ds-segmented-pill,
+[data-framer-theme="dark"] .ds-segmented-pill {
+  background: #555 !important;
+}
+
+.ds-segmented-tab {
+  position: relative;
+  flex: 1;
+  height: 100%;
+  border: none;
+  background: none !important;
+  color: #999999;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 200ms ease-out;
+  z-index: 1;
+  border-radius: 8px;
+  user-select: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ds-segmented-tab.is-active,
+.ds-segmented-tab.active {
+  color: var(--framer-color-text);
+  font-weight: 600;
+}
+
+.ds-segmented-tab-label {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Only apply hover to non-active tabs */
+@media (hover: hover) and (pointer: fine) {
+  .ds-segmented-tab:not(.is-active):not(.active):hover {
+    color: var(--framer-color-text-secondary);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ds-segmented-pill {
+    transition: none;
+  }
+}
+
+/*
+================================================================================
+9. DROPDOWN MENU
+================================================================================
+*/
+
+/*
+──────────────────────────────────────────────────────────────────────────
+Dropdown Menu
+──────────────────────────────────────────────────────────────────────────
+Popup menu with search header and scrollable list
+
+FRAMER TOKENS USED:
+  Background: --framer-color-bg (menu surface)
+  Border: --framer-color-divider (outline)
+  Hover: --framer-color-bg-tertiary (item highlight)
+
+HOW TO EDIT:
+  - Min/max-width: Adjust for content (currently 200-400px)
+  - Max-height: Before scroll kicks in (currently 300px)
+  - Border-radius: More/less rounded (currently 12px)
+  - Item padding: Taller/shorter items (currently 10px 12px)
+  - Gap: Spacing between items (currently 2px)
+
+FEATURES:
+  - Sticky search header at top
+  - Hidden scrollbars (functional scroll)
+  - Keyboard navigation (Arrow keys, Enter)
+  - Search filtering
+*/
+
+.ds-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  min-width: 200px;
+  max-width: 400px;
+  max-height: 300px;
+  overflow-y: auto;
+  background: var(--framer-color-bg);
+  border: 1px solid var(--framer-color-divider);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  padding: 4px;
+  padding-top: 0px;
+  gap: 2px;
+  z-index: 1000;
+  /* Hide scrollbar */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.ds-dropdown::-webkit-scrollbar {
+  display: none;
+}
+
+.ds-dropdown-search {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--framer-color-bg);
+  padding: 0;
+  border-bottom: 1px solid var(--framer-color-divider);
+  margin-bottom: 2px;
+}
+
+.ds-dropdown-search .ds-input {
+  border: none;
+  border-radius: 0;
+  background: var(--framer-color-bg);
+  margin: 0;
+}
+
+.ds-dropdown-search .ds-input:focus-visible {
+  box-shadow: none;
+  border: none;
+}
+
+.ds-dropdown-item {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  padding: 10px 12px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--framer-color-text);
+  font-size: 13px;
+  text-align: left;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 150ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .ds-dropdown-item:hover {
+    background: var(--framer-color-bg-tertiary);
+  }
+}
+
+.ds-dropdown-item:focus-visible {
+  outline: 2px solid var(--framer-color-tint);
+  outline-offset: -2px;
+}
+
+/*
+================================================================================
+10. LIST ROW
+================================================================================
+*/
+
+/*
+──────────────────────────────────────────────────────────────────────────
+List Row (Generic Item)
+──────────────────────────────────────────────────────────────────────────
+Flexible row for lists, trees, and navigation
+
+FRAMER TOKENS USED:
+  Background: transparent → --framer-color-bg-tertiary (hover)
+  Selected: --framer-color-bg-secondary (active state)
+  Text: --framer-color-text
+
+HOW TO EDIT:
+  - Height: Adjust padding (currently 10px vertical)
+  - Gap: Space between icon and label (currently 12px)
+  - Border-radius: More/less rounded (currently 8px)
+  - Hover transition: Adjust timing (currently 160ms ease-out)
+
+FEATURES:
+  - Icon/tag on left (24×24px)
+  - Flexible label (truncates with ellipsis)
+  - Trailing badges or counts
+  - Tree caret for expand/collapse
+*/
+
+.ds-list-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--framer-color-text);
+  font-size: 13px;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 160ms ease-out;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .ds-list-row:hover {
+    background: var(--framer-color-bg-tertiary);
+  }
+}
+
+.ds-list-row.is-selected {
+  background: var(--framer-color-bg-tertiary);
+}
+
+.ds-list-row-icon {
+  width: 24px;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--framer-color-text-secondary);
+  font-weight: 700;
+  font-size: 11px;
+}
+
+.ds-list-row-label {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/*
+================================================================================
+11. COLOR SWATCH
+================================================================================
+*/
+
+/*
+──────────────────────────────────────────────────────────────────────────
+Color Swatch
+──────────────────────────────────────────────────────────────────────────
+Square color preview with subtle border
+
+HOW TO EDIT:
+  - Size: Change width/height (currently 24×24px)
+  - Border-radius: More/less rounded (currently 6px)
+  - Border: Adjust box-shadow inset for thicker border
+  - Checkerboard: Toggle .ds-swatch--checker for transparency patterns
+
+VARIANTS:
+  .ds-swatch--small: 16×16px compact version
+  .ds-swatch--large: 32×32px prominent version
+  .ds-swatch--checker: Checkerboard background for alpha colors
+
+USAGE:
+  - Style lists (color tokens)
+  - Inspector panels (current color)
+  - Dropdown menus (color selectors)
+*/
+
+.ds-swatch {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+}
+
+.ds-swatch--small {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+}
+
+.ds-swatch--large {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+}
+
+/* Checkerboard background for transparent colors */
+.ds-swatch--checker {
+  background-image:
+    linear-gradient(45deg, rgba(0,0,0,0.08) 25%, transparent 25%),
+    linear-gradient(-45deg, rgba(0,0,0,0.08) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, rgba(0,0,0,0.08) 75%),
+    linear-gradient(-45deg, transparent 75%, rgba(0,0,0,0.08) 75%);
+  background-size: 8px 8px;
+  background-position: 0 0, 0 4px, 4px -4px, -4px 0;
+}
+
+/*
+================================================================================
+12. EMPTY STATE
+================================================================================
+*/
+
+/*
+──────────────────────────────────────────────────────────────────────────
+Empty State
+──────────────────────────────────────────────────────────────────────────
+Centered message for empty or zero-data views
+
+FRAMER TOKENS USED:
+  Icon/title: --framer-color-text-secondary (muted)
+  Subtitle: --framer-color-text-secondary (guidance text)
+
+HOW TO EDIT:
+  - Padding: Adjust overall spacing (currently 32px)
+  - Gap: Space between elements (currently 12px)
+  - Icon size: Change SVG dimensions (currently 32px)
+  - Text alignment: Center by default, can change to left
+
+USAGE:
+  - No search results
+  - Empty lists
+  - Initial onboarding states
+*/
+
+.ds-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 32px 16px;
+  text-align: center;
+}
+
+.ds-empty-icon {
+  width: 32px;
+  height: 32px;
+  color: var(--framer-color-text-secondary);
+  opacity: 0.5;
+}
+
+.ds-empty-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--framer-color-text);
+  margin: 0;
+}
+
+.ds-empty-subtitle {
+  font-size: 13px;
+  color: var(--framer-color-text-secondary);
+  margin: 0;
+  max-width: 300px;
+}
+
+/*
+================================================================================
+13. WARNING BANNER
+================================================================================
+*/
+
+/*
+──────────────────────────────────────────────────────────────────────────
+Warning Banner
+──────────────────────────────────────────────────────────────────────────
+Amber alert banner for non-destructive warnings
+
+HOW TO EDIT:
+  - Background: Adjust rgba alpha (currently 14% amber)
+  - Border: Change for more definition (currently 1px at 30% opacity)
+  - Icon size: Adjust SVG dimensions (currently 16px)
+  - Padding: More/less spacing (currently 12px 14px)
+
+USAGE:
+  - Component warnings (e.g., "Code component detected")
+  - Validation messages
+  - Helpful tips and notices
+*/
+
+.ds-warning {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: rgba(245, 158, 11, 0.14);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  color: rgb(245, 158, 11);
+}
+
+.ds-warning-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.ds-warning-content {
+  flex: 1;
+  display: grid;
+  gap: 4px;
+}
+
+.ds-warning-title {
+  font-size: 13px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.ds-warning-text {
+  font-size: 12px;
+  font-weight: 500;
+  margin: 0;
+  opacity: 0.9;
+}
+
+/*
+================================================================================
+14. UTILITY CLASSES
+================================================================================
+*/
+
+/*
+──────────────────────────────────────────────────────────────────────────
+Skeleton Loader
+──────────────────────────────────────────────────────────────────────────
+Animated shimmer effect for loading states
+
+HOW TO USE:
+  <div class="ds-skeleton" style="width: 100px; height: 20px;"></div>
+*/
+
+.ds-skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(0,0,0,0.06),
+    rgba(0,0,0,0.12),
+    rgba(0,0,0,0.06)
+  );
+  background-size: 200% 100%;
+  animation: ds-shimmer 1.4s infinite;
+  border-radius: var(--radius-xs);
+}
+
+@keyframes ds-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/*
+──────────────────────────────────────────────────────────────────────────
+Visually Hidden
+──────────────────────────────────────────────────────────────────────────
+Hide element visually but keep it in the accessibility tree
+
+HOW TO USE:
+  <span class="ds-sr-only">Loading...</span>
+*/
+
+.ds-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/*
+================================================================================
+17. SLIDER COMPONENT (Radix UI - Equal-Width Badge + Track)
+================================================================================
+*/
+
+/*
+──────────────────────────────────────────────────────────────────────────
+Slider Component (Built with @radix-ui/react-slider)
+──────────────────────────────────────────────────────────────────────────
+Modern slider with equal-width badge input and Radix UI track.
+Left: Rounded badge displaying current value (editable)
+Right: Radix slider with track, range, and draggable thumb
+
+RADIX UI DOCUMENTATION:
+  https://www.radix-ui.com/primitives/docs/components/slider
+
+FRAMER TOKENS USED:
+  Badge: --framer-color-bg-secondary (dark surface)
+  Track: --framer-color-divider (gray background)
+  Range: --framer-color-tint (blue filled portion)
+  Thumb: --framer-color-bg (white in light, dark in dark mode)
+  Text: --framer-color-text
+
+RADIX PARTS:
+  - Root: Container for slider (handles interaction)
+  - Track: Background track (gray line)
+  - Range: Filled portion (blue, from start to thumb)
+  - Thumb: Draggable knob (white circle)
+
+HOW TO EDIT:
+  - Badge width: Both use flex: 1 for equal width
+  - Track height: Change in .ds-slider-component-track
+  - Thumb size: Modify .ds-slider-component-thumb
+  - Border-radius: Adjust border-radius values
+  - Gap: Change gap in .ds-slider-component-container
+
+ACCESSIBILITY:
+  - Built-in Radix accessibility (ARIA, roles, keyboard nav)
+  - Keyboard: Arrow keys, Home, End, Page Up/Down
+  - Screen reader support
+  - Focus management
+  - Disabled state handling
+*/
+
+.ds-slider-component {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.ds-slider-component-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--framer-color-text);
+}
+
+.ds-slider-component-container {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  
+}
+
+/* Left: Value badge input - Equal width */
+.ds-slider-component-badge {
+  flex: 1;
+  min-width: 0;
+  height: 40px;
+  padding: 0 16px;
+  background: var(--framer-color-bg-secondary);
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--framer-color-text);
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  outline: none;
+  box-shadow: inset 0 1px 0 rgba(0,0,0,0.04);
+  transition: border-color 180ms cubic-bezier(.215, .61, .355, 1),
+              box-shadow 180ms cubic-bezier(.215, .61, .355, 1);
+}
+
+.ds-slider-component-badge:hover:not(:disabled) {
+  box-shadow: inset 0 1px 0 rgba(0,0,0,0.06);
+}
+
+.ds-slider-component-badge:focus {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
+}
+
+.ds-slider-component-badge:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Right: Radix Slider Root - Equal width */
+.ds-slider-component-root {
+  flex: 1;
+  min-width: 0;
+  position: relative;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  cursor: ew-resize;
+  user-select: none;
+  touch-action: none;
+}
+
+.ds-slider-component-root[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Radix Track (gray background line) */
+.ds-slider-component-track {
+  position: relative;
+  flex-grow: 1;
+  height: 2px;
+  background: var(--framer-color-divider);
+  border-radius: 9999px;
+}
+
+.ds-slider-component-track[data-disabled] {
+  opacity: 0.5;
+}
+
+/* Radix Range (blue filled portion) */
+.ds-slider-component-range {
+  position: absolute;
+  height: 100%;
+  background: var(--framer-color-tint);
+  border-radius: 2px;
+}
+
+.ds-slider-component-range[data-disabled] {
+  background: var(--framer-color-tint);
+  opacity: 0.5;
+}
+
+/* Radix Thumb (draggable knob) */
+.ds-slider-component-thumb {
+  display: block;
+  width: 12px;
+  height: 12px;
+  border-radius: 20px;
+  background: #ffffff;
+  border: 1px solid var(--framer-color-divider);
+  border: none;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4),
+              0 1px 2px rgba(0, 0, 0, 0.1),
+              0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.ds-slider-component-thumb:focus {
+  outline: none;
+}
+
+.ds-slider-component-thumb:focus-visible {
+  box-shadow: 0 0 0 2px var(--framer-color-bg),
+              0 0 0 4px var(--framer-color-tint);
+}
+
+.ds-slider-component-thumb[data-disabled] {
+  cursor: not-allowed;
+}
+
+/*
+================================================================================
+18. COLOR READOUT COMPONENT
+================================================================================
+Read-only color display showing swatch, hex code, and alpha percentage.
+Extracted from style-checker's LayerInspector component.
+*/
+
+.ds-color-readout-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.ds-color-readout-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--framer-color-text);
+  line-height: 1;
+}
+
+.ds-color-readout {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 10px;
+  border: 1px solid var(--framer-color-divider);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--framer-color-text);
+  width: fit-content;
+  transition: border-color 200ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .ds-color-readout:hover {
+    
+    background: var(--framer-color-bg-tertiary);
+  }
+}
+
+.ds-color-readout__swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
+  flex-shrink: 0;
+}
+
+.ds-color-readout__value {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-variant-numeric: tabular-nums;
+  font-size: 12px;
+  font-weight: 600;
+  margin-left: 4px;
+  color: var(--framer-color-text);
+  text-transform: uppercase;
+}
+
+.ds-color-readout__divider {
+  width: 1px;
+  height: 14px;
+  background: var(--framer-color-divider);
+  margin: 0 8px;
+  opacity: 0.8;
+  flex-shrink: 0;
+}
+
+.ds-color-readout__alpha {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-variant-numeric: tabular-nums;
+  font-size: 12px;
+  color: var(--framer-color-text-secondary);
+}
+
+/*
+================================================================================
+19. STEPPER COMPONENT (Number Input with +/- Controls)
+================================================================================
+*/
+
+/*
+──────────────────────────────────────────────────────────────────────────
+Stepper Component (Section 19)
+──────────────────────────────────────────────────────────────────────────
+Number input with increment/decrement buttons.
+Left: Input field for direct value entry (equal width)
+Right: Minus and Plus buttons separated by divider (equal width)
+
+FRAMER TOKENS USED:
+  Background: --framer-color-bg-secondary (dark surface)
+  Text: --framer-color-text
+  Divider: --framer-color-divider
+  Buttons: Semi-transparent hover states
+
+HOW TO EDIT:
+  - Height: Adjust for taller/shorter (currently 40px)
+  - Gap: Space between input and controls (currently 10px)
+  - Button size: Change width for larger/smaller buttons
+  - Border-radius: Adjust for more/less rounding
+
+ACCESSIBILITY:
+  - Keyboard support (Arrow Up/Down, Enter)
+  - Min/max constraints with disabled states
+  - ARIA labels for screen readers
+  - Focus states
+*/
+
+.ds-stepper-component {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.ds-stepper-component-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--framer-color-text);
+}
+
+.ds-stepper-component-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+/* Left: Number input - Equal width */
+.ds-stepper-component-input {
+  flex: 1;
+  min-width: 0;
+  height: 40px;
+  padding: 0 16px;
+  background: var(--framer-color-bg-secondary);
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--framer-color-text);
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  outline: none;
+  box-shadow: inset 0 1px 0 rgba(0,0,0,0.04);
+  transition: box-shadow 180ms cubic-bezier(.215, .61, .355, 1);
+}
+
+.ds-stepper-component-input:hover:not(:disabled) {
+  box-shadow: inset 0 1px 0 rgba(0,0,0,0.06);
+}
+
+.ds-stepper-component-input:focus {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
+}
+
+.ds-stepper-component-input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Remove spinner arrows */
+.ds-stepper-component-input::-webkit-outer-spin-button,
+.ds-stepper-component-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+.ds-stepper-component-input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+/* Right: Button controls container - Equal width */
+.ds-stepper-component-controls {
+  flex: 1;
+  min-width: 0;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  background: var(--framer-color-bg-secondary);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: inset 0 1px 0 rgba(0,0,0,0.04);
+}
+
+/* Decrement/Increment buttons */
+.ds-stepper-component-button {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: var(--framer-color-text);
+  cursor: pointer;
+  transition: background-color 150ms ease;
+  padding: 0;
+  outline: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .ds-stepper-component-button:hover:not(:disabled) {
+    background: rgba(0, 0, 0, 0.04);
+  }
+}
+
+.ds-stepper-component-button:active:not(:disabled) {
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.ds-stepper-component-button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  background: transparent !important;
+  pointer-events: none;
+}
+
+.ds-stepper-component-button:focus-visible {
+  outline: 2px solid var(--framer-color-tint);
+  outline-offset: -2px;
+}
+
+/* Divider between buttons */
+.ds-stepper-component-divider {
+  width: 1px;
+  height: 20px;
+  background: var(--framer-color-divider);
+  opacity: 0.5;
+}
+
+/* Dark mode adjustments */
+@media (prefers-color-scheme: dark) {
+  .ds-stepper-component-button:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.06);
+  }
+  
+  .ds-stepper-component-button:active:not(:disabled) {
+    background: rgba(255, 255, 255, 0.0);
+  }
+}
+
+/*
+================================================================================
+END OF DESIGN SYSTEM STYLES
+================================================================================
+All components are theme-aware via Framer color tokens and respect user
+motion preferences. Customize by adjusting the variables and token mappings
+at the top of this file.
+
+For detailed component usage, see the preview pane in the plugin interface.
+================================================================================
+*/
+

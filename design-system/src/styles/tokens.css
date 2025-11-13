@@ -1,0 +1,201 @@
+/*
+================================================================================
+DESIGN TOKENS — Global Variables & Theme Foundation
+================================================================================
+
+This file centralizes all design tokens used across the component library.
+All tokens are derived from official Framer color variables for automatic
+theme support.
+
+IMPORTANT: Do NOT hardcode colors. Always use CSS variables so components
+automatically adapt to light/dark themes.
+
+Official Framer Docs: https://www.framer.com/developers/interface
+================================================================================
+*/
+
+:root, body {
+  /*
+  ──────────────────────────────────────────────────────────────────────────
+  OFFICIAL FRAMER COLOR TOKENS
+  ──────────────────────────────────────────────────────────────────────────
+  These are provided by Framer and automatically switch between light/dark.
+  Reference these directly in your components.
+  
+  Primary surfaces:
+    --framer-color-bg              Main background (white → dark gray)
+    --framer-color-bg-secondary    Secondary surface layer
+    --framer-color-bg-tertiary     Tertiary surface (inputs, buttons, hover)
+    --framer-color-bg-quaternary   Fourth level (rarely used)
+  
+  Text colors:
+    --framer-color-text            Primary text (near-black → white)
+    --framer-color-text-secondary  Muted/secondary text (gray)
+    --framer-color-text-tertiary   Even more muted (rarely used)
+  
+  Borders & accents:
+    --framer-color-divider         Borders and separators (subtle gray)
+    --framer-color-tint            Brand accent (blue, for focus rings)
+  */
+
+  /*
+  ──────────────────────────────────────────────────────────────────────────
+  SEMANTIC ALIASES (OPTIONAL)
+  ──────────────────────────────────────────────────────────────────────────
+  Shorthand aliases for commonly used tokens. You can use these or the
+  full --framer-color-* tokens directly.
+  
+  HOW TO EDIT:
+  - Keep these in sync with Framer tokens
+  - Add new aliases as needed (e.g., --input-bg, --button-bg)
+  - Never use hardcoded hex values here
+  */
+  --bg: var(--framer-color-bg);
+  --surface: var(--framer-color-bg-secondary);
+  --surface-secondary: var(--framer-color-bg-tertiary);
+  --text: var(--framer-color-text);
+  --muted: var(--framer-color-text-secondary);
+  --border: var(--framer-color-divider);
+  --ring: var(--framer-color-tint);
+
+  /*
+  ──────────────────────────────────────────────────────────────────────────
+  SPACING & LAYOUT TOKENS
+  ──────────────────────────────────────────────────────────────────────────
+  HOW TO EDIT:
+  - Adjust values for more/less rounding across all components
+  - Keep values consistent (e.g., radius-sm should be smaller than radius)
+  - Shadow can be modified for deeper/lighter elevation
+  */
+  
+  /* Border radius scale */
+  --radius: 10px;         /* Large: cards, panels, dropdowns */
+  --radius-sm: 8px;       /* Medium: buttons, inputs, list rows */
+  --radius-xs: 6px;       /* Small: badges, swatches, tooltips */
+  
+  /* Elevation (box-shadow) */
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 
+            0 8px 24px rgba(0, 0, 0, 0.04);
+
+  /*
+  ──────────────────────────────────────────────────────────────────────────
+  ANIMATION TOKENS
+  ──────────────────────────────────────────────────────────────────────────
+  Standard durations and easing curves for consistent motion.
+  
+  HOW TO EDIT:
+  - Adjust durations for faster/slower animations
+  - Change easing curves for different motion feel
+  - Keep fast (150ms) for micro-interactions
+  - Use medium (200-300ms) for larger movements
+  */
+  
+  /* Durations */
+  --duration-fast: 150ms;       /* Quick hover states, tooltips */
+  --duration-medium: 200ms;     /* Button hover, input focus */
+  --duration-slow: 300ms;       /* Larger movements, panel slides */
+  
+  /* Easing curves (based on your animation guidelines) */
+  --ease-out-cubic: cubic-bezier(0.215, 0.61, 0.355, 1);
+  --ease-out-quart: cubic-bezier(0.165, 0.84, 0.44, 1);
+  --ease-out-quint: cubic-bezier(0.23, 1, 0.32, 1);
+
+  /*
+  ──────────────────────────────────────────────────────────────────────────
+  TYPOGRAPHY TOKENS
+  ──────────────────────────────────────────────────────────────────────────
+  Font sizes and weights for consistent typography.
+  */
+  
+  /* Font sizes */
+  --text-xs: 11px;        /* Tiny labels, hints */
+  --text-sm: 12px;        /* Small text, badges */
+  --text-base: 13px;      /* Body text, inputs */
+  --text-md: 14px;        /* Headings, emphasized */
+  --text-lg: 16px;        /* Large headings */
+  
+  /* Font weights */
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+
+  /*
+  ──────────────────────────────────────────────────────────────────────────
+  COMPONENT-SPECIFIC TOKENS
+  ──────────────────────────────────────────────────────────────────────────
+  Tokens used by specific components. Centralized here for easy updates.
+  */
+  
+  /* Buttons */
+  --button-padding: 8px 16px;
+  --button-height: 36px;
+  --button-small-height: 28px;
+  --button-icon-size: 36px;
+  
+  /* Inputs */
+  --input-padding: 8px 12px;
+  --input-height: 36px;
+  
+  /* Badges */
+  --badge-padding: 2px 6px;
+  --badge-font-size: var(--text-xs);
+  
+  /* Swatches */
+  --swatch-small: 16px;
+  --swatch-default: 24px;
+  --swatch-large: 32px;
+
+  /*
+  ──────────────────────────────────────────────────────────────────────────
+  COLOR SCHEME HINT
+  ──────────────────────────────────────────────────────────────────────────
+  Tells browsers we support both light and dark color schemes for better
+  defaults (e.g., native form controls, scrollbars).
+  */
+  color-scheme: light dark;
+}
+
+/*
+================================================================================
+REDUCED MOTION SUPPORT (WCAG AAA)
+================================================================================
+Disables animations when user requests reduced motion. This is a critical
+accessibility feature for users with vestibular disorders.
+
+DO NOT REMOVE THIS RULE.
+*/
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/*
+================================================================================
+USAGE EXAMPLES
+================================================================================
+
+✅ CORRECT: Using tokens
+.my-component {
+  background: var(--framer-color-bg-tertiary);
+  color: var(--framer-color-text);
+  border-radius: var(--radius-sm);
+  transition: background-color var(--duration-medium) var(--ease-out-cubic);
+}
+
+❌ WRONG: Hardcoded values
+.my-component {
+  background: #f5f5f5;
+  color: #000;
+  border-radius: 8px;
+  transition: background-color 200ms ease;
+}
+
+================================================================================
+*/
+
