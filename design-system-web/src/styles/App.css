@@ -32,6 +32,43 @@ Docs: https://www.framer.com/developers/interface
 
 /*
 ================================================================================
+GLOBAL RESET & FULL-SCREEN LAYOUT
+================================================================================
+*/
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: var(--framer-color-bg);
+  color: var(--framer-color-text);
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/*
+================================================================================
 1. APP SHELL & LAYOUT FOUNDATION
 ================================================================================
 */
@@ -369,10 +406,11 @@ How to edit:
   display: flex;
   flex-direction: column;
   overflow-y: auto;
+  margin: auto;
   /* Hide scrollbar while keeping scroll functional */
   -ms-overflow-style: none;
   scrollbar-width: none;
-  border-top: 1px solid var(--framer-color-divider);
+  
 }
 
 .ds-main::-webkit-scrollbar {
@@ -1210,13 +1248,15 @@ FEATURES:
   gap: 12px;
   padding: 10px;
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
   background: transparent;
   color: var(--framer-color-text);
   font-size: 13px;
   text-align: left;
   cursor: pointer;
   transition: background-color 160ms ease-out;
+  width: 100%;
+  min-width: 0;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -1247,6 +1287,30 @@ FEATURES:
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+/*
+──────────────────────────────────────────────────────────────────────────
+List Row Container
+──────────────────────────────────────────────────────────────────────────
+Wrapper for ListRow examples with border and padding
+
+HOW TO EDIT:
+  - Border-radius: Change for more/less rounded corners (currently 10px)
+  - Padding: Adjust internal spacing (currently 8px)
+  - Border: Modify thickness or color (currently 1px divider color)
+  - Max-width: Constrain container width (currently 400px)
+*/
+
+.ds-list-row-container {
+  width: 100%;
+  max-width: 400px;
+  border: 1px solid var(--framer-color-divider);
+  border-radius: 10px; /* ← EDIT THIS: Change border radius here */
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 /*
