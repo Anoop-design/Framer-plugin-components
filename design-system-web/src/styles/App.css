@@ -54,7 +54,7 @@ body {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: 'Geist', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: var(--framer-color-bg);
@@ -65,6 +65,230 @@ body {
   width: 100%;
   height: 100%;
   overflow: hidden;
+}
+
+/*
+================================================================================
+INTRODUCTION PAGE
+================================================================================
+*/
+
+.ds-introduction {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 20px;
+
+}
+
+.ds-intro-hero {
+  text-align: left;
+  padding-top: 40px;
+  border-bottom: 1px solid var(--framer-color-divider);
+  margin-bottom: 40px;
+}
+
+.ds-intro-logo {
+  width: 80px;
+  height: auto;
+  margin: 0;
+  margin-bottom: 24px;
+  display: block;
+  border-radius: 16px;
+}
+
+.ds-intro-title {
+  font-size: 26px;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+  color: var(--framer-color-text);
+  line-height: 1.2;
+}
+
+.ds-intro-subtitle {
+  font-size: 14px;
+  color: var(--framer-color-text-secondary);
+  margin: 0;
+}
+
+.ds-intro-link {
+  color: var(--framer-color-tint);
+  text-decoration: none;
+  font-weight: 600;
+  transition: opacity 200ms ease;
+}
+
+.ds-intro-link:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}
+
+.ds-intro-author {
+  margin-top: 20px;
+  padding-bottom: 36px;
+}
+
+.ds-intro-author-text {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--framer-color-text-secondary);
+  margin: 0;
+  text-align: left;
+}
+
+.ds-intro-links {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  margin-top: 24px;
+  border-bottom: 1px solid var(--framer-color-divider);
+  padding-bottom: 32px;
+}
+
+.ds-intro-link-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+  gap: 8px;
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: white;
+  background: var(--framer-color-tint);
+  border-radius: 8px;
+  text-decoration: none;
+  
+  transition: opacity 200ms ease, transform 150ms ease;
+}
+
+.ds-intro-link-button--secondary {
+  background: var(--framer-color-bg-tertiary);
+  color: var(--framer-color-text);
+  flex-grow: 1;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .ds-intro-link-button:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+  }
+}
+
+.ds-intro-link-button:active {
+  transform: translateY(0);
+
+}
+
+.ds-intro-content {
+  display: flex;
+
+  flex-direction: column;
+  gap: 40px;
+}
+
+.ds-intro-section h2 {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0 0 16px 0;
+  color: var(--framer-color-text);
+
+  
+}
+
+.ds-intro-section p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--framer-color-text-secondary);
+  margin: 0;
+}
+
+.ds-intro-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 20px;
+}
+
+.ds-intro-feature {
+  text-align: center;
+  padding: 20px;
+  border-radius: 12px;
+  background: var(--framer-color-bg-secondary);
+}
+
+.ds-intro-feature-icon {
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+
+.ds-intro-feature h3 {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+  color: var(--framer-color-text);
+}
+
+.ds-intro-feature p {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--framer-color-text-secondary);
+  margin: 0;
+}
+
+.ds-intro-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.ds-intro-category {
+  padding: 16px;
+  border-radius: 10px;
+  background: var(--framer-color-bg-tertiary);
+}
+
+.ds-intro-category h4 {
+  font-size: 13px;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+  color: var(--framer-color-text);
+}
+
+.ds-intro-category p {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--framer-color-text-secondary);
+  margin: 0;
+}
+
+.ds-intro-list {
+  padding-left: 24px;
+  margin: 16px 0 0 0;
+}
+
+.ds-intro-list li {
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--framer-color-text-secondary);
+  margin-bottom: 8px;
+}
+
+.ds-intro-cta {
+  padding: 24px;
+  border-radius: 12px;
+  background: var(--framer-color-bg-secondary);
+  border: 1px solid var(--framer-color-divider);
+  text-align: center;
+}
+
+.ds-intro-cta p {
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 0;
+  color: var(--framer-color-text-secondary);
+}
+
+.ds-intro-cta strong {
+  font-weight: 600;
 }
 
 /*
@@ -156,7 +380,7 @@ How to edit:
   background: var(--framer-color-bg);
   color: var(--framer-color-text);
   overflow: hidden;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: 'Geist', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 /*
@@ -193,6 +417,59 @@ How to edit:
   border-bottom: 1px solid var(--framer-color-divider);
   border-top: 1px solid var(--framer-color-divider);
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.ds-branding {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+}
+
+.ds-branding-logo {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  flex-shrink: 0;
+  object-fit: cover;
+}
+
+.ds-branding-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.ds-branding-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--framer-color-text);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.ds-branding-subtitle {
+  font-size: 11px;
+  color: var(--framer-color-text-secondary);
+  margin: 2px 0 0 0;
+  line-height: 1.3;
+}
+
+.ds-branding-link {
+  color: var(--framer-color-tint);
+  text-decoration: none;
+  font-weight: 500;
+  transition: opacity 200ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .ds-branding-link:hover {
+    opacity: 0.7;
+  }
 }
 
 .ds-header-content {
@@ -330,6 +607,7 @@ How to edit:
 .ds-nav-item {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 8px;
   padding: 8px;
   padding-left: 18px;
@@ -347,6 +625,90 @@ How to edit:
   position: relative;
 }
 
+.ds-nav-label {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/*
+──────────────────────────────────────────────────────────────────────────
+Keyboard Shortcut Badges
+──────────────────────────────────────────────────────────────────────────
+Small badges showing keyboard shortcuts in the navigation sidebar.
+
+HOW TO CUSTOMIZE:
+- min-width: Adjust badge width (currently 32px for single chars)
+- height: Change badge height (currently 18px)
+- font-size: Adjust text size (currently 11px)
+- font-weight: Change boldness (currently 600)
+- letter-spacing: Tighten/loosen character spacing (currently -0.2px)
+- color: Change text color (currently tertiary text)
+- background: Change background color (currently secondary surface)
+- border-radius: Adjust corner rounding (currently 4px)
+- padding: Adjust internal spacing (currently 0 6px)
+
+TIP: For larger badges, increase min-width to 36-40px and height to 20-22px
+TIP: Adjust 'gap' to control spacing between modifier key and letter
+*/
+.ds-nav-shortcut {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-width: 32px;
+  height: 18px;
+  padding: 0 6px;
+  font-size: 11px;
+  font-weight: 600;
+  font-family: 'Geist Mono', ui-monospace, monospace;
+  letter-spacing: -0.2px;
+  color: var(--framer-color-text-tertiary);
+  background: var(--framer-color-bg-secondary);
+  border-radius: 4px;
+  opacity: 1;
+  transition: background 150ms ease, color 150ms ease;
+}
+
+/*
+──────────────────────────────────────────────────────────────────────────
+Command/Modifier Key Symbol (⌘ or Ctrl)
+──────────────────────────────────────────────────────────────────────────
+Style for the modifier key symbol in keyboard shortcuts.
+
+HOW TO CUSTOMIZE:
+- font-size: Make the ⌘ symbol larger/smaller (currently 13px, 2px bigger than base)
+- font-weight: Change boldness (currently inherits 600)
+- line-height: Adjust vertical alignment (currently 1 for precise centering)
+
+TIP: Increase font-size to 14-16px for a more prominent command symbol
+TIP: Keep line-height at 1 to prevent vertical misalignment
+*/
+.ds-nav-shortcut-mod {
+  font-size: 14px;
+  line-height: 1;
+}
+
+/*
+──────────────────────────────────────────────────────────────────────────
+Shortcut Key Letter/Number (1-9, Q, E, M, etc.)
+──────────────────────────────────────────────────────────────────────────
+Style for the actual key letter or number in keyboard shortcuts.
+
+HOW TO CUSTOMIZE:
+- font-size: Adjust letter size independently from modifier (currently inherits 11px)
+- font-weight: Make bolder or lighter (currently inherits 600)
+- line-height: Adjust vertical position (currently 1)
+
+TIP: Keep this slightly smaller than the modifier for visual hierarchy
+*/
+.ds-nav-shortcut-key {
+  line-height: 1;
+}
+
 @media (hover: hover) and (pointer: fine) {
   .ds-nav-item:hover {
     background: var(--framer-color-bg-tertiary);
@@ -357,6 +719,21 @@ How to edit:
   background: var(--framer-color-bg-tertiary);
   color: var(--framer-color-text);
   font-weight: 500;
+}
+
+/*
+──────────────────────────────────────────────────────────────────────────
+Active Nav Item Shortcut Badge
+──────────────────────────────────────────────────────────────────────────
+Badge appearance when the nav item is selected/active.
+
+HOW TO CUSTOMIZE:
+- color: Text color for active state (currently primary text)
+- background: Background color for active state (currently quaternary surface)
+*/
+.ds-nav-item.is-active .ds-nav-shortcut {
+  color: var(--framer-color-text);
+  background: var(--framer-color-bg-quaternary);
 }
 
 .ds-nav-item:focus-visible {
@@ -406,11 +783,11 @@ How to edit:
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  margin: auto;
+  height: 100%;
   /* Hide scrollbar while keeping scroll functional */
   -ms-overflow-style: none;
   scrollbar-width: none;
-  
+  border-top: 1px solid var(--framer-color-divider);
 }
 
 .ds-main::-webkit-scrollbar {
@@ -420,6 +797,10 @@ How to edit:
 .ds-content {
   padding: 20px 24px;
   max-width: 800px;
+  margin: 0 auto;
+  padding-top: 70px;
+  padding-bottom: 40px;
+  width: 100%;
 }
 
 /*
@@ -595,13 +976,166 @@ Documentation Section
 .ds-docs-list code,
 .ds-token-list code,
 .ds-docs-text code {
-  font-family: ui-monospace, 'SF Mono', 'Cascadia Code', 'Source Code Pro', Menlo, monospace;
+  font-family: 'Geist Mono', ui-monospace, 'SF Mono', 'Cascadia Code', 'Source Code Pro', Menlo, monospace;
   font-size: 11px;
   padding: 2px 5px;
   border-radius: 4px;
   background: var(--framer-color-bg-tertiary);
   color: var(--framer-color-text);
   font-weight: 500;
+}
+
+/*
+──────────────────────────────────────────────────────────────────────────
+Build Specification Section (LLM Prompts)
+──────────────────────────────────────────────────────────────────────────
+Complete styling for the "Build Specification" section that shows
+LLM-friendly prompts for rebuilding components.
+
+QUICK TWEAKS:
+  Main container (.ds-build-spec):
+    - margin-top: 0                  ← Spacing above section
+    - border-radius: 12px            ← Corner rounding
+    - background: bg-secondary       ← Card background
+  
+  Header (.ds-build-spec-header):
+    - padding: 16px 20px             ← Internal spacing
+    - gap: 16px                      ← Space between title and button
+  
+  Copy button (.ds-copy-button):
+    - padding: 8px 16px              ← Button size
+    - border-radius: 8px             ← Button rounding
+    - font-size: 12px                ← Button text size
+  
+  Code block (.ds-build-spec-code):
+    - padding: 16px 20px             ← Code block spacing
+    - font-size: 12px                ← Code text size
+    - line-height: 1.6               ← Code line spacing
+  
+  Footer (.ds-build-spec-footer):
+    - padding: 16px 20px             ← Footer spacing
+    - background: bg-tertiary        ← Footer background
+*/
+
+/* Main container */
+.ds-build-spec {
+  margin: 0 !important;                               /* ← EDIT: Force no spacing */
+  padding: 0 !important;                              /* ← EDIT: Force no padding */
+  border: 1px solid var(--framer-color-divider);
+  border-radius: 12px;                                /* ← EDIT: Corner rounding */
+  background: var(--framer-color-bg-secondary);       /* ← EDIT: Card background */
+  overflow: hidden;
+}
+
+/* Header with title and copy button */
+.ds-build-spec-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;                                          /* ← EDIT: Space between elements */
+  padding: 16px 20px;                                 /* ← EDIT: Internal padding */
+  border-bottom: 1px solid var(--framer-color-divider);
+}
+
+/* Subtitle text */
+.ds-build-spec-subtitle {
+  font-size: 12px;                                    /* ← EDIT: Subtitle size */
+  color: var(--framer-color-text-secondary);
+  margin: 4px 0 0 0;
+  line-height: 1.5;
+}
+
+/* Copy button */
+.ds-copy-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;                                           /* ← EDIT: Icon-text spacing */
+  padding: 8px 16px;                                  /* ← EDIT: Button size */
+  border: 1px solid var(--framer-color-divider);
+  border-radius: 8px;                                 /* ← EDIT: Button rounding */
+  background: var(--framer-color-bg);
+  color: var(--framer-color-text);
+  font-size: 12px;                                    /* ← EDIT: Button text size */
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 200ms ease;                         /* ← EDIT: Animation speed */
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Copy button hover state */
+@media (hover: hover) and (pointer: fine) {
+  .ds-copy-button:hover {
+    background: var(--framer-color-bg-tertiary);      /* ← EDIT: Hover background */
+    border-color: var(--framer-color-tint);           /* ← EDIT: Hover border */
+  }
+}
+
+/* Copy button active (pressed) state */
+.ds-copy-button:active {
+  transform: scale(0.98);                             /* ← EDIT: Press animation */
+}
+
+/* Copy button keyboard focus */
+.ds-copy-button:focus-visible {
+  outline: 2px solid var(--framer-color-tint);        /* ← EDIT: Focus ring */
+  outline-offset: 2px;
+}
+
+/* Copy button icon */
+.ds-copy-button svg {
+  flex-shrink: 0;
+}
+
+/* Code block container */
+.ds-build-spec-code {
+  padding: 16px;                                 /* ← EDIT: Code block padding */
+  margin: 0;
+  background: var(--framer-color-bg);                 /* ← EDIT: Code background */
+  overflow-x: auto;
+  font-family: 'Geist Mono', ui-monospace, 'SF Mono', 'Cascadia Code', 'Source Code Pro', Menlo, monospace;
+  font-size: 12px;                                    /* ← EDIT: Code text size */
+  line-height: 1.6;                                   /* ← EDIT: Code line height */
+  color: var(--framer-color-text);
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  /* Hide scrollbar while keeping scroll functional */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.ds-build-spec-code::-webkit-scrollbar {
+  display: none;
+}
+
+/* Code element inside pre */
+.ds-build-spec-code code {
+  background: none;
+  padding: 0;
+  color: inherit;
+  font-size: inherit;
+}
+
+/* Footer with usage instructions */
+.ds-build-spec-footer {
+  padding: 16px 16px;                                 /* ← EDIT: Footer padding */
+  border-top: none;                                   /* ← EDIT: Remove top border */
+  background: transparent;                            /* ← EDIT: No background fill */
+  margin-top: auto;                                   /* Push to bottom if space available */
+}
+
+/* Footer text */
+.ds-build-spec-footer p {
+  font-size: 12px;                                    /* ← EDIT: Footer text size */
+  line-height: 1.6;
+  color: var(--framer-color-text-secondary);
+  margin: 0;
+}
+
+/* Footer bold text */
+.ds-build-spec-footer strong {
+  color: var(--framer-color-text);
+  font-weight: 600;
 }
 
 /*
@@ -1772,7 +2306,7 @@ Extracted from style-checker's LayerInspector component.
 }
 
 .ds-color-readout__value {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-family: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   font-variant-numeric: tabular-nums;
   font-size: 12px;
   font-weight: 600;
@@ -1791,7 +2325,7 @@ Extracted from style-checker's LayerInspector component.
 }
 
 .ds-color-readout__alpha {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-family: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   font-variant-numeric: tabular-nums;
   font-size: 12px;
   color: var(--framer-color-text-secondary);

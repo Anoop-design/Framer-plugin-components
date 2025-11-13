@@ -1721,6 +1721,7 @@ ACCESSIBILITY:
   gap: 8px;
   width: 100%;
   max-width: 300px;
+  padding: 0px;
   margin: 0 auto;
 }
 
